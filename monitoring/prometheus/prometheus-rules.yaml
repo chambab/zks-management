@@ -106,7 +106,7 @@ data:
           severity: warning
         annotations:
           summary: API server Errors High
-          description: "API server returns errors for {{$value}}% of requests summary: API server request errors"
+          description: "API server returns errors for {{$value}}% of requests summary, (client:{{ $labels.client }}, resource:{{ $labels.resource }}, code:{{ $labels.code }}" 
       - alert: APIServerLatencyHigh
         expr: avg(apiserver_request_latencies_sum / apiserver_request_latencies_count) / 1000000 > 2000
         for: 2m
@@ -159,7 +159,7 @@ data:
           severity: critical
         annotations:
           summary: ETCD server unreachable
-          description: Prometheus failed to scrape ETCD server
+          description: Prometheus failed to scrape ETCD server {{ $labels.instance }}
       - alert: ETCD_NoLeader
         expr: etcd_server_has_leader{job="etcd"} == 0
         for: 2m
@@ -179,7 +179,7 @@ data:
           summary: ETCD server insufficient members
           description: If one more etcd member goes down the cluster will be unavailable
       - alert: ETCD_HighNumberOfLeaderChanges
-        expr: increase(etcd_server_leader_changes_seen_total{job="etcd"}[1h]) > 3
+        expr: increase(etcd_server_leader_changes_seen_total{job="etcd"}[1h]) > 10
         for: 2m
         labels:
           channel: sk-cps-ops
