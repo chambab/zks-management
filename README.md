@@ -20,9 +20,10 @@ volumes:
           defaultMode: 420
           name: monitoring-prometheus-alertmanager
         name: config-volume
-      - configMap:
+      - configMap:                                    //Template ConfigMap Add
           defaultMode: 420
           name: alertmanager-templates
+        name: alertmanager-templates-volume
 
 image: ibmcom/alertmanager:v0.13.0
         imagePullPolicy: IfNotPresent
